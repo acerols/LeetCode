@@ -127,4 +127,55 @@ public:
 ```
 
 
+## Step.4 (Review を得て実装)
+
+### コーディングスタンダード
+
+コーディングの統一性のなさが指摘されている。
+コーディング練習では、google のコーディングスタンダードをルールとして、
+コードの実装と見直しを行っていく。
+
+https://github.com/acerols/LeetCode/pull/1#discussion_r4060391951
+https://github.com/acerols/LeetCode/pull/1#discussion_r4060417167
+https://github.com/acerols/LeetCode/pull/1#discussion_r4060423847
+
+### 別解法
+
+Step.1~3では、Floydの循環検出法を使用したが、愚直に行うには、setなどを用いて、
+ノードを全探索する方法が取れる。
+
+https://github.com/acerols/LeetCode/pull/1#discussion_r4060391951
+
+Step.4 では、この方法を用いて、実装する。
+
+C++ のunorderd_setを用いた実装を行った。
+
+使用するデータ構造については、今回の用途では、
+要素内で順序付けする必要がないため、setではなく、unordered_setを用いた。
+
+これにより、containsとinsertの操作はそれぞれ、O(N)であるため、
+全体の計算量としては、O(N^2)である。
+この計算量であれば、制限時間内(2sec)に完了させることができる。
+
+
+```cpp
+class Solution {
+public:
+    bool hasCycle(ListNode* head) {
+        std::unordered_set<ListNode*> visited;
+
+        while (head != nullptr) {
+            if (visited.contains(head)) {
+                return true;
+            }
+
+            visited.insert(head);
+            head = head->next;
+        }
+
+        return false;
+    }
+};
+```
+
 ### 参考
